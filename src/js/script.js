@@ -1,5 +1,15 @@
+let numberOfProblemsToShow = 5; // Change this number as needed
+let maxNumber = 100; // Change this number to control the range of numbers
+let includeAddition = true; // Flag for including addition
+let includeSubtraction = true; // Flag for including subtraction
+let includeMultiplication = true; // Flag for including multiplication
+let includeDivision = true; // Flag for including division
+let maxDivisor = 5; // Change this number to control the maximum divisor in division
+let allowNegativeAnswers = false; // Flag for allowing negative answers
+
+
 document.addEventListener('DOMContentLoaded', function () {
-    generateProblems(10);
+    generateProblems(numberOfProblemsToShow);
 });
 
 function generateProblems(numProblems) {
@@ -13,10 +23,16 @@ function generateProblems(numProblems) {
         const problemContainer = document.createElement('div');
         problemContainer.classList.add('mw-list__problem');
 
-        const num1 = Math.floor(Math.random() * 10);
-        const num2 = Math.floor(Math.random() * 10);
+        let num1, num2, operator, answer;
 
-        problemContainer.textContent = `${num1} + ${num2} = `;
+        do {
+            num1 = getRandomNumber();
+            num2 = getRandomNumber();
+            operator = getRandomOperator();
+            answer = calculateAnswer(num1, num2, operator);
+        } while (!isProblemValid(answer));
+
+        problemContainer.textContent = `${num1} ${operator} ${num2} = `;
 
         problemItem.appendChild(problemContainer);
 
@@ -33,6 +49,44 @@ function generateProblems(numProblems) {
     document.querySelector('.mw-results').textContent = ''; // Clear previous results
 }
 
+function getRandomNumber() {
+    const isPositiveOnly = !allowNegativeAnswers;
+    const sign = isPositiveOnly ? 1 : Math.random() < 0.5 ? -1 : 1;
+    return sign * Math.floor(Math.random() * (maxNumber + 1));
+}
+
+function getRandomOperator() {
+    const operators = [];
+    if (includeAddition) operators.push('+');
+    if (includeSubtraction) operators.push('-');
+    if (includeMultiplication) operators.push('*');
+    if (includeDivision) operators.push('/');
+    
+    const randomIndex = Math.floor(Math.random() * operators.length);
+    return operators[randomIndex];
+}
+
+function calculateAnswer(num1, num2, operator) {
+    switch (operator) {
+        case '+':
+            return num1 + num2;
+        case '-':
+            return num1 - num2;
+        case '*':
+            return num1 * num2;
+        case '/':
+            return num1 / num2;
+        default:
+            return NaN;
+    }
+}
+
+function isProblemValid(answer) {
+    // Check if the answer is a whole number when division is involved
+    return !(includeDivision && answer % 1 !== 0) && 
+           !(answer < 0 && !allowNegativeAnswers);
+}
+
 
 
 function checkAnswers() {
@@ -41,12 +95,14 @@ function checkAnswers() {
     resultsContainer.textContent = ''; // Clear previous results
 
     let correctCount = 0;
+    let allFilled = true;
 
     inputElements.forEach((input, index) => {
         const userAnswer = parseInt(input.value, 10);
 
         if (isNaN(userAnswer)) {
             input.classList.add('error');
+            allFilled = false;
         } else {
             input.classList.remove('error');
             const { num1, num2, answer } = getProblem(index);
@@ -58,8 +114,10 @@ function checkAnswers() {
         }
     });
 
-    const percentageCorrect = (correctCount / inputElements.length) * 100;
-    resultsContainer.textContent = `Percentage Correct: ${percentageCorrect.toFixed(2)}%`;
+    if (allFilled) {
+        const percentageCorrect = (correctCount / inputElements.length) * 100;
+        resultsContainer.textContent = `Percentage Correct: ${percentageCorrect.toFixed(2)}%`;
+    }
 }
 
 function getProblem(index) {
