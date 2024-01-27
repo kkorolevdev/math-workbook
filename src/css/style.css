@@ -18,11 +18,6 @@ h1 {
 	text-align: center;
 }
 
-#problem-container {
-    display: inline-block;
-    font-size: 24px;
-}
-
 input {
     width: calc(100% - 60px); /* Adjusted width */
     padding: 10px;
@@ -43,8 +38,24 @@ button:hover {
 	background-color: #0056b3;
 }
 
-#feedback {
-	text-align: center;
-	font-weight: bold;
-	color: green;
+.mw-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.mw-list__item {
+	display: flex;
+	gap: 0.5rem;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.mw-list__item:not(:first-child) {
+	padding-top: 0.5rem;
+	border-top: 1px solid #c1c1c1;
+}
+
+.mw-list__answer input.error {
+    border: 2px solid red;
 }
