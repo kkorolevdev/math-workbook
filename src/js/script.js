@@ -7,7 +7,6 @@ let includeDivision = true; // Flag for including division
 let maxDivisor = 5; // Change this number to control the maximum divisor in division
 let allowNegativeAnswers = false; // Flag for allowing negative answers
 
-
 document.addEventListener('DOMContentLoaded', function () {
     generateProblems(numberOfProblemsToShow);
 });
@@ -82,8 +81,11 @@ function calculateAnswer(num1, num2, operator) {
 }
 
 function isProblemValid(answer) {
+    // Check if the answer is within the specified range
+    const isValidRange = Math.abs(answer) <= maxNumber;
+    
     // Check if the answer is a whole number when division is involved
-    return !(includeDivision && answer % 1 !== 0) && 
+    return isValidRange && !(includeDivision && answer % 1 !== 0) && 
            !(answer < 0 && !allowNegativeAnswers);
 }
 
