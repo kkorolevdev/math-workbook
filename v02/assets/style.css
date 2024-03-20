@@ -31,6 +31,20 @@ footer {
 
 
 
+
+.mw-button {
+	padding: 12px 24px;
+	background: #008060;
+	color: #FFFFFF;
+}
+
+.mw-button:hover {
+	background: #004C3F;
+}
+
+
+
+
 .mw-calc__list-item {
 	display: flex;
 	justify-content: flex-start;
@@ -43,3 +57,36 @@ footer {
 	border-top: 1px solid #e1e1e1;
 }
 
+.mw-calc__list-item-problem,
+.mw-calc__list-item-solution {
+	display: flex;
+	gap: 16px;
+}
+
+.mw-param,
+.mw-action,
+.mw-calc__list-item-solution input {
+	font-size: 20px;
+	font-family: "Inter", sans-serif;
+	font-weight: 400;
+
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 45px;
+	padding: 4px  8px;
+	border: 1px solid #e1e1e1;
+	border-radius: 4px;
+}
+
+.mw-param {
+	min-width: 50px;
+}
+
+.mw-action {
+	min-width: 45px;
+}
+
+.mw-solution {
+	width: 75px;
+}
