@@ -23,6 +23,10 @@ header {
 	border-bottom: 1px solid #e1e1e1;
 }
 
+header h1 {
+	margin: 0;
+}
+
 footer {
 	padding-top: 24px;
 	border-top: 1px solid #e1e1e1;
@@ -34,8 +38,11 @@ footer {
 
 .mw-button {
 	padding: 12px 24px;
+	text-align: center;
 	background: #008060;
 	color: #FFFFFF;
+	cursor: pointer;
+	transition: 0.25s;
 }
 
 .mw-button:hover {
