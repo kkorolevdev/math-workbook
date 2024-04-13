@@ -131,8 +131,10 @@
 
             if (userSolution === correctResult) {
                 resultDisplay.textContent = 'Correct';
+				resultDisplay.classList.add('correct');
             } else {
                 resultDisplay.textContent = 'Wrong';
+				resultDisplay.classList.add('wrong');
             }
         });
     }

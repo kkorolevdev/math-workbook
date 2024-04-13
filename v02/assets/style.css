@@ -65,7 +65,7 @@ footer {
 
 .mw-param,
 .mw-action,
-.mw-calc__list-item-solution input {
+.mw-solution {
 	font-size: 20px;
 	font-family: "Inter", sans-serif;
 	font-weight: 400;
@@ -89,4 +89,18 @@ footer {
 
 .mw-solution {
 	width: 75px;
+	text-align: center;
+}
+
+.mw-calc__list-item-result {
+	display: flex;
+	align-items: center;
+}
+
+.mw-calc__list-item-result.correct {
+	color: #009900
+}
+
+.mw-calc__list-item-result.wrong {
+	color: #990000;
 }
