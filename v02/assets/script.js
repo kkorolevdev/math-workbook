@@ -33,12 +33,20 @@
 	// Function to generate a random value for result based on the chosen action
 	function generateResult(action) {
 		let calculatedResult;
-		if (resultMax - paramOne < paramTwoMin) {
-			// Ensure result can be within resultMin and resultMax range
-			paramTwo = resultMax - paramOne;
+
+		if (action === '-') {
+			if (paramOne > resultMax) {
+				// If paramOne is greater than resultMax, generate paramTwo between paramTwoMin and paramOne - resultMax
+				paramTwo = Math.floor(Math.random() * (paramOne - resultMax + 1)) + paramTwoMin;
+			} else {
+				// Ensure paramTwo is between paramTwoMin and the difference between paramOne and resultMin
+				paramTwo = Math.floor(Math.random() * (paramOne - resultMin - paramTwoMin + 1)) + paramTwoMin;
+			}
 		} else {
+			// For addition, multiplication, division, etc.
 			paramTwo = Math.floor(Math.random() * (resultMax - paramOne - paramTwoMin + 1)) + paramTwoMin;
 		}
+
 		switch (action) {
 			case '+':
 				calculatedResult = paramOne + paramTwo;
