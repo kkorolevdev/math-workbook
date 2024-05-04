@@ -188,8 +188,8 @@
 				resultDisplay.classList.add('correct');
 				correctAnswers++;
             } else {
-                resultDisplay.textContent = 'Wrong';
-				resultDisplay.classList.add(`wrong, ${correctResult}`);
+                resultDisplay.textContent = `Wrong, ${correctResult}` ;
+				resultDisplay.classList.add('wrong');
             }
         });
 
