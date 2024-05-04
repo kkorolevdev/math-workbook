@@ -5,20 +5,20 @@
 	let correctAnswers = 0; // Variable to keep track of the number of correct answers
 
 	// Settings.
-	const mathExercises = 10;
+	const mathExercises = 25;
 
 	let result;
 	const resultMin = 0;
 	const resultMax = 1000;
 	
-	const actionOne = ['+', '-', '*', '/'];
+	const actionOne = ['+', '-', '*', ':'];
 	
 	let paramOne;
 	const paramOneMin = 1;
 	const paramOneMax = 999;
 
 	let paramTwo;
-	const paramTwoMin = 1;
+	const paramTwoMin = 2;
 	const paramTwoMax = 999;
 
 	// Function to pick a random action from actionOne array
@@ -52,7 +52,7 @@
 				// If the maximum possible result is less than or equal to resultMin, set paramTwo to 0
 				paramTwo = 0;
 			}
-		} else if (action === '/') {
+		} else if (action === ':') {
 			// For division, generate paramOne and paramTwo for multiplication
 			paramOne = generateParamOne();
 			paramTwo = Math.floor(Math.random() * (paramTwoMax - paramTwoMin + 1)) + paramTwoMin;
@@ -89,7 +89,7 @@
 			case '*':
 				calculatedResult = paramOne * paramTwo;
 				break;
-			case '/':
+			case ':':
 				calculatedResult = paramOne / paramTwo;
 				break;
 			default:
