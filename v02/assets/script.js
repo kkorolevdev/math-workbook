@@ -5,21 +5,21 @@
 	let correctAnswers = 0; // Variable to keep track of the number of correct answers
 
 	// Settings.
-	const mathExercises = 5;
+	const mathExercises = 10;
 
 	let result;
 	const resultMin = 0;
-	const resultMax = 100;
+	const resultMax = 1000;
 	
 	const actionOne = ['+', '-', '*', '/'];
 	
 	let paramOne;
 	const paramOneMin = 1;
-	const paramOneMax = 99;
+	const paramOneMax = 999;
 
 	let paramTwo;
 	const paramTwoMin = 1;
-	const paramTwoMax = 99;
+	const paramTwoMax = 999;
 
 	// Function to pick a random action from actionOne array
 	function pickRandomAction() {
@@ -189,7 +189,7 @@
 				correctAnswers++;
             } else {
                 resultDisplay.textContent = 'Wrong';
-				resultDisplay.classList.add('wrong');
+				resultDisplay.classList.add(`wrong, ${correctResult}`);
             }
         });
 
