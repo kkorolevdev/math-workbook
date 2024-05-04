@@ -10,7 +10,7 @@
 	const resultMin = 0;
 	const resultMax = 100;
 	
-	const actionOne = ['+', '-'];
+	const actionOne = ['+', '-', '*', '/'];
 	
 	let paramOne;
 	const paramOneMin = 1;
@@ -42,6 +42,37 @@
 				// Ensure paramTwo is between paramTwoMin and the difference between paramOne and resultMin
 				paramTwo = Math.floor(Math.random() * (paramOne - resultMin - paramTwoMin + 1)) + paramTwoMin;
 			}
+		} else if (action === '*') {
+			// For multiplication, ensure that the result does not exceed resultMax
+			const maxPossibleResult = Math.min(resultMax, paramOne * paramTwoMax);
+			if (maxPossibleResult > resultMin) {
+				paramTwo = Math.floor(Math.random() * (maxPossibleResult / paramOne - paramTwoMin + 1)) + paramTwoMin;
+			} else {
+				// If the maximum possible result is less than or equal to resultMin, set paramTwo to 0
+				paramTwo = 0;
+			}
+		} else if (action === '/') {
+			// For division, generate paramOne and paramTwo for multiplication
+			paramOne = generateParamOne();
+			paramTwo = Math.floor(Math.random() * (paramTwoMax - paramTwoMin + 1)) + paramTwoMin;
+
+			// Calculate the result for multiplication
+			let multiplicationResult = paramOne * paramTwo;
+
+			// Check if the multiplication result exceeds resultMax
+			if (multiplicationResult > resultMax) {
+				// If it does, generate paramTwo such that the multiplication result is within resultMax
+				paramTwo = Math.floor(resultMax / paramOne);
+				// Recalculate the multiplication result
+				multiplicationResult = paramOne * paramTwo;
+			}
+
+			// Reverse the parameters for division
+			paramOne = multiplicationResult;
+			paramTwo = paramTwo !== 0 ? paramTwo : 1; // Ensure paramTwo is not zero to avoid division by zero
+
+			// Calculate the result for division
+			calculatedResult = paramOne / paramTwo;
 		} else {
 			// For addition, multiplication, division, etc.
 			paramTwo = Math.floor(Math.random() * (resultMax - paramOne - paramTwoMin + 1)) + paramTwoMin;
@@ -53,6 +84,12 @@
 				break;
 			case '-':
 				calculatedResult = paramOne - paramTwo;
+				break;
+			case '*':
+				calculatedResult = paramOne * paramTwo;
+				break;
+			case '/':
+				calculatedResult = paramOne / paramTwo;
 				break;
 			default:
 				calculatedResult = 0;
