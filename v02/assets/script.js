@@ -2,6 +2,7 @@
 
 	const problemList = document.querySelector('.mw-calc__list');
 	const results = [];
+	let correctAnswers = 0; // Variable to keep track of the number of correct answers
 
 	// Settings.
 	const mathExercises = 5;
@@ -157,6 +158,11 @@
 		event.preventDefault();
 
 		clearProblemList();
+
+		// Clear the stats
+		const statsDiv = document.querySelector('.mw-calc__stats');
+		statsDiv.textContent = '';
+
 		generateProblems();
 	}
 
@@ -165,6 +171,9 @@
 
         // Get all problem containers
         const problemContainers = document.querySelectorAll('.mw-calc__list-item');
+
+		// Reset the number of correct answers
+		correctAnswers = 0;
 
         // Loop through each problem to check its solution
         problemContainers.forEach((problemContainer, index) => {
@@ -177,11 +186,19 @@
             if (userSolution === correctResult) {
                 resultDisplay.textContent = 'Correct';
 				resultDisplay.classList.add('correct');
+				correctAnswers++;
             } else {
                 resultDisplay.textContent = 'Wrong';
 				resultDisplay.classList.add('wrong');
             }
         });
+
+		// Calculate the percentage of correct answers
+		const percentage = Math.round((correctAnswers / mathExercises) * 100);
+
+		// Publish the percentage on the page
+		const statsDiv = document.querySelector('.mw-calc__stats');
+		statsDiv.textContent = `Score: ${percentage}% (${correctAnswers} of ${mathExercises})`;
     }
 
 	const startToggles = document.querySelectorAll('.mw-button-start');
