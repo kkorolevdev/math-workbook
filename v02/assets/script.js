@@ -4,6 +4,8 @@
 	const results = [];
 	let correctAnswers = 0; // Variable to keep track of the number of correct answers
 
+	const divisionSymbol = ' ';
+
 	// Settings.
 	const mathExercises = 25;
 
@@ -14,12 +16,12 @@
 	const actionOne = ['+', '-', '*', ':'];
 	
 	let paramOne;
-	const paramOneMin = 1;
-	const paramOneMax = 999;
+	const paramOneMin = 999;
+	const paramOneMax = 999999;
 
 	let paramTwo;
-	const paramTwoMin = 2;
-	const paramTwoMax = 999;
+	const paramTwoMin = 999;
+	const paramTwoMax = 999999;
 
 	// Function to pick a random action from actionOne array
 	function pickRandomAction() {
@@ -38,28 +40,28 @@
 		if (action === '-') {
 			if (paramOne > resultMax) {
 				// If paramOne is greater than resultMax, generate paramTwo between paramTwoMin and paramOne - resultMax
-				paramTwo = Math.floor(Math.random() * (paramOne - resultMax + 1)) + paramTwoMin;
+				paramTwo = Math.max(paramTwoMin, Math.floor(Math.random() * (paramOne - resultMax + 1)));
 			} else {
 				// Ensure paramTwo is between paramTwoMin and the difference between paramOne and resultMin
-				paramTwo = Math.floor(Math.random() * (paramOne - resultMin - paramTwoMin + 1)) + paramTwoMin;
+				paramTwo = Math.max(paramTwoMin, Math.floor(Math.random() * (paramOne - resultMin - paramTwoMin + 1)));
 			}
 		} else if (action === '*') {
 			// For multiplication, ensure that the result does not exceed resultMax
 			const maxPossibleResult = Math.min(resultMax, paramOne * paramTwoMax);
 			if (maxPossibleResult > resultMin) {
-				paramTwo = Math.floor(Math.random() * (maxPossibleResult / paramOne - paramTwoMin + 1)) + paramTwoMin;
+				paramTwo = Math.max(paramTwoMin, Math.floor(Math.random() * (maxPossibleResult / paramOne - paramTwoMin + 1)));
 			} else {
-				// If the maximum possible result is less than or equal to resultMin, set paramTwo to 0
-				paramTwo = 0;
+				// If the maximum possible result is less than or equal to resultMin, set paramTwo to paramTwoMin
+				paramTwo = paramTwoMin;
 			}
 		} else if (action === ':') {
 			// For division, generate paramOne and paramTwo for multiplication
 			paramOne = generateParamOne();
 			paramTwo = Math.floor(Math.random() * (paramTwoMax - paramTwoMin + 1)) + paramTwoMin;
-
+		
 			// Calculate the result for multiplication
 			let multiplicationResult = paramOne * paramTwo;
-
+		
 			// Check if the multiplication result exceeds resultMax
 			if (multiplicationResult > resultMax) {
 				// If it does, generate paramTwo such that the multiplication result is within resultMax
@@ -67,16 +69,16 @@
 				// Recalculate the multiplication result
 				multiplicationResult = paramOne * paramTwo;
 			}
-
+		
 			// Reverse the parameters for division
 			paramOne = multiplicationResult;
 			paramTwo = paramTwo !== 0 ? paramTwo : 1; // Ensure paramTwo is not zero to avoid division by zero
-
+		
 			// Calculate the result for division
 			calculatedResult = paramOne / paramTwo;
 		} else {
-			// For addition, multiplication, division, etc.
-			paramTwo = Math.floor(Math.random() * (resultMax - paramOne - paramTwoMin + 1)) + paramTwoMin;
+			// For addition, generate paramTwo to ensure result does not exceed resultMax
+			paramTwo = Math.max(paramTwoMin, Math.floor(Math.random() * (resultMax - paramOne - paramTwoMin + 1)));
 		}
 
 		switch (action) {
@@ -101,15 +103,19 @@
 		return result;
 	}
 
+	function formatNumber(num) {
+		return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, divisionSymbol);
+	}
+
 	function renderProblemList(paramOne, action, paramTwo) {
 		// Create a new list item for the problem
 		const listItem = document.createElement('div');
 		listItem.classList.add('mw-calc__list-item');
 		listItem.innerHTML = `
 			<div class="mw-calc__list-item-problem">
-				<span class="mw-param param-one">${paramOne}</span>
+				<span class="mw-param param-one">${formatNumber(paramOne)}</span>
 				<span class="mw-action action-one">${action}</span> 
-				<span class="mw-param param-two">${paramTwo}</span>
+				<span class="mw-param param-two">${formatNumber(paramTwo)}</span>
 				<span class="mw-action">=</span>
 				<input type="text" class="mw-solution user-solution">
 				<span class="mw-calc__list-item-result"></span>
